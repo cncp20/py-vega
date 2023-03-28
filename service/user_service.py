@@ -13,3 +13,7 @@ class UserService:
     
     def insert_user(self, username, password, email, role_id):
         self.__user_dao.insert_user(username, password, email, role_id)
+        
+    def search_user_id(self, username):
+        result = self.__user_dao.search_user_id(username)
+        return result

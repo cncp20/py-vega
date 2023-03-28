@@ -46,3 +46,17 @@ class UserDao:
         finally:
             if "con" in dir():
                 con.close()
+    
+    def search_user_id(self, username):
+        try:
+            con = pool.get_connection()
+            cursor = con.cursor()
+            sql = "SELECT id FROM t_user WHERE username=%s"
+            cursor.execute(sql, [username])
+            user_id = cursor.fetchone()[0]
+            return user_id
+        except Exception as e:
+            print(e)
+        finally:
+            if "con" in dir():
+                con.close()
