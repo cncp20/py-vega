@@ -48,9 +48,12 @@ while True:
                             print(Style.RESET_ALL)
                             opt = input("类型编号:")
                             type_id = result[int(opt) - 1][0]
-                            content_id = 100
+                            path = input("输入文件路径")
+                            file = open("path", "r")
+                            content = file.read()
+                            file.close()
                             is_top = input("置顶级别(0-5)")
-                            __news_service.insert(title, user_id, type_id, content_id, is_top)
+                            __news_service.insert(title, user_id, type_id, content, is_top)
                             print("保存成功")
                             time.sleep(3)
                             break
@@ -76,6 +79,7 @@ while True:
                             elif opt == "next" and page < page_count:
                                 page += 1
                             elif int(opt) > 0 and int(opt) < 11:
+                                os.system("clear")
                                 news_id = result[int(opt) - 1][0]
                                 result = __news_service.search_by_id(news_id)
                                 title = result[0]
@@ -92,8 +96,11 @@ while True:
                                 new_type = input("新类型编号:")
                                 print("原级别: %s" % is_top)
                                 new_is_top = input("新级别（0-5）:")
-                                content_id = 200
-                                __news_service.update_news(news_id, new_title, new_type, content_id, new_is_top)
+                                path = input("输入路径")
+                                file = open(path, "r")
+                                content = file.read()
+                                file.close()
+                                __news_service.update_news(news_id, new_title, new_type, content, new_is_top)
                                 print("保存成功")
                                 time.sleep(3)
                                 break
@@ -145,7 +152,8 @@ while True:
                                         title = result[0]
                                         username = result[1]
                                         type = result[2]
-                                        content = result[3]
+                                        content_id = result[3]
+                                        content = __news_service.search_content_by_id(content_id)
                                         is_top = result[4]
                                         create_time = str(result[5])
                                         __news_service.cache_news(news_id, title, username, type, content, is_top, create_time)
